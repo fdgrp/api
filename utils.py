@@ -8,5 +8,5 @@ def isempty(args, need):
     return empty
 
 def domd5(text):
-    return hashlib.sha256(input.encode()).hexdigest()
+    return hashlib.sha256(text.encode()).hexdigest()
 
