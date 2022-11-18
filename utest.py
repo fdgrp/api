@@ -41,4 +41,4 @@ cars = (
 (test("geo/add", {"access_token": "df"}, "geo add fail auth"))
 
 test("geo/add",
-      {"access_token": token["access_token"], "car_id": cars[0]["id"] ,"lat": 12.12,"lon": 96}, "geo add")
+     {"access_token": token["access_token"], "car_id": cars[0]["id"], "lat": 12.12, "lon": 96}, "geo add")

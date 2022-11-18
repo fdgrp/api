@@ -53,6 +53,7 @@ class Car():
             res.append(pres.__dict__)
         return {"result": res}
 
+
 class Person():
     def __init__(self):
         self.name, self.login, self.id = None, None, None

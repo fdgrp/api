@@ -1,4 +1,6 @@
 import hashlib
+
+
 def isempty(args, need):
     empty = []
     for key in need:
@@ -7,6 +9,6 @@ def isempty(args, need):
             empty.append(key)
     return empty
 
+
 def domd5(text):
     return hashlib.sha256(text.encode()).hexdigest()
-
