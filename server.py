@@ -22,14 +22,14 @@ def user_auth(req):
         return 403, {"error": f"These keys are empty: {empty}"}
     else:
         login = req.data["login"]
-        user = db.exec("select name, id from users where login = %s and password = %s",
+        user = db.exec("SELECT name, id from users WHERE login = %s and password = %s",
                        (login, utils.domd5(req.data["password"])))
         if len(user) < 1:
             return 401, {"error": "Invalid username or password"}
         else:
             user = user[0]
             token = utils.domd5(f"{time.time_ns()} {login}")
-            db.exec("insert into auth (user_id, token) values (%s, %s)",
+            db.exec("INSERT INTO auth (user_id, token) VALUES (%s, %s)",
                     (user[1], token))
             return 200, {"access_token": token, "name": user[0], "id": user[1]}
 
@@ -70,7 +70,7 @@ def geo_add(req):
     geo_not_in_request = utils.isempty(req.data, ["lon", "lat"])
     if (not geo_not_in_request):
         print(car.__dict__)
-        db.exec("insert into geo (car_id, lat, lon) values (%s, %s, %s)",
+        db.exec("INSERT INTO geo (car_id, lat, lon) VALUES (%s, %s, %s)",
                 (car.id, req.data["lat"], req.data["lon"]))
         return 200, {}
     return 403, {"error": f"These keys are empty: {geo_not_in_request}"}

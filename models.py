@@ -15,7 +15,7 @@ class Car():
         car_not_in_request = utils.isempty(req.data, ["car_id"])
         if (not car_not_in_request):
             car = db.exec(
-                "select user_id, id, car_info from cars where id = %s ", (req.data["car_id"], ))
+                "SELECT user_id, id, car_info FROM cars WHERE ID = %s ", (req.data["car_id"], ))
             exists = len(car) > 0  # check of exists
             if (not exists):
                 return 403, {"error": f"This car not exists"}
@@ -34,7 +34,7 @@ class Car():
             return user
         car_not_in_request = utils.isempty(req.data, ["car_info", ])
         if (not car_not_in_request):
-            db.exec("insert into cars (user_id, car_info) values (%s, %s)",
+            db.exec("INSERT INTO cars (user_id, car_info) VALUES (%s, %s)",
                     (user.id, req.data["car_info"]))
             return {"status": "ok"}
         return 403, {"error": f"These keys are empty: {car_not_in_request}"}
@@ -45,7 +45,7 @@ class Car():
             print("err")
             return user
         cars = db.exec(
-            "select user_id, id, car_info from cars where user_id = %s", (user.id,))
+            "SELECT user_id, id, car_info FROM cars WHERE user_id = %s", (user.id,))
         res = []
         for car in cars:
             pres = Car()
@@ -70,12 +70,12 @@ class Person():
 
             # check of exists
             exists = len(
-                db.exec("select id from users where login = %s", (login,))) > 0
+                db.exec("SELECT id FROM users WHERE login = %s", (login,))) > 0
             if exists:
                 # TODO another languages of error
                 return 403, {"error": "This login has already been used, try another one"}
 
-            db.exec("insert into users (login, name, password) values (%s, %s, %s)",
+            db.exec("INSERT INTO users (login, name, password) VALUES (%s, %s, %s)",
                     (login, name, pass_hash))  # reg user
 
             return 200, Person.get_by_login(login).__dict__
@@ -103,7 +103,7 @@ class Person():
 
     def get_by_login(login):
         user = db.exec(
-            "select name, login, id from users where login=%s", (login,))[0]
+            "SELECT name, login, id FROM users WHERE login=%s", (login,))[0]
         res = Person()
         res.name = user[0]
         res.login = user[1]
