@@ -1,7 +1,7 @@
 import mysql.connector
-cnx = mysql.connector.connect(user='user', password='04h608yg435f',
+cnx = mysql.connector.connect(user="user", password="04h608yg435f",
                               port=3333,
-                              database='trash', autocommit=True)
+                              database="trash", autocommit=True)
 
 def exec(query: str, args: list = []):
     print(query)

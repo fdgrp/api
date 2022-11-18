@@ -15,7 +15,7 @@ class Car():
         car_not_in_request = utils.isempty(req.data, ["car_id"])
         if (not car_not_in_request):
             car = db.exec(
-                "select user_id, id, car_info from cars where id = %s ", (req.data['car_id'], ))
+                "select user_id, id, car_info from cars where id = %s ", (req.data["car_id"], ))
             exists = len(car) > 0  # check of exists
             if (not exists):
                 return 403, {"error": f"This car not exists"}
@@ -35,7 +35,7 @@ class Car():
         car_not_in_request = utils.isempty(req.data, ["car_info", ])
         if (not car_not_in_request):
             db.exec("insert into cars (user_id, car_info) values (%s, %s)",
-                    (user.id, req.data['car_info']))
+                    (user.id, req.data["car_info"]))
             return {"status": "ok"}
         return 403, {"error": f"These keys are empty: {car_not_in_request}"}
 
@@ -64,9 +64,9 @@ class Person():
 
         if (not reg_not_in_request):
             # do hash of password
-            pass_hash = utils.domd5(req.data['password'])
-            login = req.data['login']
-            name = req.data['name']
+            pass_hash = utils.domd5(req.data["password"])
+            login = req.data["login"]
+            name = req.data["name"]
 
             # check of exists
             exists = len(
@@ -88,7 +88,7 @@ class Person():
         token_not_in_request = utils.isempty(req.data, ["access_token"])
 
         if (not token_not_in_request):  # auth
-            token = req.data['access_token']
+            token = req.data["access_token"]
             user = db.exec(
                 "select name, login, id from users where id=(select user_id from auth where token=%s)", (token,))
             print(user)

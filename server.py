@@ -1,7 +1,9 @@
-import sbeaver
-import utils
 import time
+
+import sbeaver
+
 import models
+import utils
 import db
 
 server = sbeaver.Server("0.0.0.0", 8080, False)
@@ -15,13 +17,13 @@ def er500(req, path):
 
 @server.bind("/api/user/auth")
 def user_auth(req):
-    empty = utils.isempty(req.data, ["login", 'password'])
+    empty = utils.isempty(req.data, ["login", "password"])
     if empty:
         return 403, {"error": f"These keys are empty: {empty}"}
     else:
-        login = req.data['login']
+        login = req.data["login"]
         user = db.exec("select name, id from users where login = %s and password = %s",
-                       (login, utils.domd5(req.data['password'])))
+                       (login, utils.domd5(req.data["password"])))
         if len(user) < 1:
             return 401, {"error": "Invalid username or password"}
         else:
@@ -63,13 +65,13 @@ def geo_add(req):
         return car
     # if car belongs this user
     if car.user_id != user.id:
-        return 403, {"error": "This car doesn't belong to you"}
+        return 403, {"error": "This car doesn`t belong to you"}
     # if long and lat correct
     geo_not_in_request = utils.isempty(req.data, ["lon", "lat"])
     if (not geo_not_in_request):
         print(car.__dict__)
         db.exec("insert into geo (car_id, lat, lon) values (%s, %s, %s)",
-                (car.id, req.data['lat'], req.data['lon']))
+                (car.id, req.data["lat"], req.data["lon"]))
         return 200, {}
     return 403, {"error": f"These keys are empty: {geo_not_in_request}"}
 
