@@ -36,7 +36,7 @@ class Car():
         if (not car_not_in_request):
             db.exec("INSERT INTO cars (user_id, car_info) VALUES (%s, %s)",
                     (user.id, req.data["car_info"]))
-            return {"status": "ok"}
+            return 200, {"status": "ok"}
         return 403, {"error": f"These keys are empty: {car_not_in_request}"}
 
     def get_all(req):
@@ -51,7 +51,7 @@ class Car():
             pres = Car()
             pres.user_id, pres.id, pres.car_info = car[0], car[1], car[2]
             res.append(pres.__dict__)
-        return {"result": res}
+        return 200, {"result": res}
 
 
 class Person():

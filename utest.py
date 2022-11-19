@@ -22,13 +22,13 @@ def test(method, params={}, msg="task"):
     return result, "error" not in result
 
 
-test("user/reg", {"login": "wex",
+test("user/reg", {"login": "qwe",
                   "name": "Шкарёв Андрей Андреевич",
-                  "password": "123123"}, "reg")
+                  "password": "qwe"}, "reg")
 
 
-token = test("user/auth", {"login": "wex",
-                           "password": "123123"}, "auth")[0]
+token = test("user/auth", {"login": "qwe",
+                           "password": "qwe"}, "auth")[0]
 print(token)
 
 test("car/add", {"access_token": token["access_token"],
