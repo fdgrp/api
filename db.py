@@ -1,17 +1,26 @@
 import mysql.connector
-cnx = mysql.connector.connect(user='user', password='04h608yg435f',
+cnx = None
+
+
+def base():
+    global cnx
+    cnx = mysql.connector.connect(user='user', password='04h608yg435f',
                               port=3333,
                               database='trash', autocommit=True)
-
-
-def exec(query: str, args: list = []):
+base()
+def exec(query: str, args: list = [], req=10):
     print(query)
-
-    with cnx.cursor() as cursor:
-        cursor.execute(query, args)
-        result = cursor.fetchall()
-        return result
-
+    try:
+        with cnx.cursor() as cursor:
+            cursor.execute(query, args)
+            result = cursor.fetchall()
+            return result
+    except mysql.connector.OperationalError:
+        base()
+        req -= 1
+        if req > 0:
+            return exec(query, args, req)
+        
 
 def init():
     print(exec("DROP TABLE IF EXISTS users"))
