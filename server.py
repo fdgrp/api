@@ -50,6 +50,29 @@ def car_get(req):
     # if user exists
     return models.Car.get_all(req)
 
+@server.bind("/api/car/del")
+def car_del(req):
+    # if user exists
+    user = models.Person.auth(req)
+    if (type(user) is tuple):
+        print("err")
+        return user
+    # if car exisst
+    car = models.Car.get(req)
+    if (type(car) is tuple):
+        print("err")
+        return car
+
+
+    # if car belongs this user
+    if car.user_id != user.id:
+        return 403, {"error": "This car doesn`t belong to you"}
+    
+
+    db.exec("delete from cars where id=%s", (car.id,))
+    db.exec("delete from geo where car_id=%s", (car.id,))
+
+    return 200, {"status": "ok"}
 
 @server.bind("/api/geo/add")
 def geo_add(req):

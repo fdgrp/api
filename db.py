@@ -1,7 +1,7 @@
 import mysql.connector
 cnx = mysql.connector.connect(user='user', password='04h608yg435f',
                               port=3333,
-                              database='trash', autocouit=True)
+                              database='trash', autocommit=True)
 
 
 def exec(query: str, args: list = []):
@@ -34,7 +34,7 @@ def init():
         )"""))
 
     print("ld")
-    print(exec("DROP TABLE IF EXISTS CARS"))
+    print(exec("DROP TABLE IF EXISTS cars"))
     exec("""CREATE TABLE cars (
         id INT NOT NULL AUTO_INCREMENT,
         user_id INT NOT NULL, 
