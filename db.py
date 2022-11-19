@@ -5,6 +5,7 @@ cnx = None
 def base():
     global cnx
     cnx = mysql.connector.connect(user='user', password='04h608yg435f',
+host="new.wanilla.ru"
                               port=3333,
                               database='trash', autocommit=True)
 base()

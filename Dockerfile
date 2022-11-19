@@ -9,6 +9,6 @@ WORKDIR /usr/src/app
 
 RUN pip install sbeaver mysql-connector-python requests
 
-RUN "echo '' > cfg.py" 
+RUN echo "" > cfg.py
 
 CMD [ "python", "./server.py"]
