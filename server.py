@@ -1,10 +1,12 @@
 import time
+import re
 
 import sbeaver
 
 import models
 import utils
 import db
+import yandex
 
 server = sbeaver.Server("0.0.0.0", 8080, False)
 
@@ -39,6 +41,15 @@ def user_reg(req):
     return models.Person.reg(req)
 
 
+@server.bind("/api/photo/vin")
+def get_vin(req: sbeaver.Request):
+    for text in yandex.post(req.raw_data):
+
+        if len(text) == 17 and len(re.findall(r"^([^а-я]+)$", text)) == 1:
+            return {"result": text}
+    return 404, {"error": "VIN not recognized"}
+
+
 @server.bind("/api/car/add")
 def car_add(req):
     # if user exists
@@ -49,6 +60,7 @@ def car_add(req):
 def car_get(req):
     # if user exists
     return models.Car.get_all(req)
+
 
 @server.bind("/api/car/del")
 def car_del(req):
@@ -63,16 +75,15 @@ def car_del(req):
         print("err")
         return car
 
-
     # if car belongs this user
     if car.user_id != user.id:
         return 403, {"error": "This car doesn`t belong to you"}
-    
 
     db.exec("delete from cars where id=%s", (car.id,))
     db.exec("delete from geo where car_id=%s", (car.id,))
 
     return 200, {"status": "ok"}
+
 
 @server.bind("/api/geo/add")
 def geo_add(req):

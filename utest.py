@@ -42,3 +42,5 @@ cars = (
 
 test("geo/add",
      {"access_token": token["access_token"], "car_id": cars[0]["id"], "lat": 12.12, "lon": 96}, "geo add")
+
+print(requests.post("http://0.0.0.0:8080/api/photo/vin", data=open("photo.png", 'rb')).json())
