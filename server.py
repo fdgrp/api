@@ -1,6 +1,7 @@
 import time
 import re
 
+import requests
 import sbeaver
 
 import models
@@ -90,6 +91,22 @@ def car_del(req):
     db.exec("delete from geo where car_id=%s", (car.id,))
 
     return cors(200, {"status": "ok"})
+
+
+
+@server.bind("/api/car/captcha")
+def captcha(req):
+    res = requests.get("https://check.gibdd.ru/captcha")
+    return cors(res.status_code, res.json())
+
+
+@server.bind("/api/car/info")
+def car_info(req):
+    res = requests.post(
+        "https://xn--b1afk4ade.xn--90adear.xn--p1ai/proxy/check/auto/history", req.data)
+
+    return cors(403 if 201 == res.json().get('code') else 200, res.json())
+
 
 
 @server.bind("/api/geo/add")
