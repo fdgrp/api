@@ -2,13 +2,12 @@ FROM python:3.9-slim
 
 EXPOSE 8080
 
+RUN pip install sbeaver mysql-connector-python requests
+
 COPY . /usr/src/app
 
 WORKDIR /usr/src/app
 
+RUN cp example.cfg.py cfg.py
 
-RUN pip install sbeaver mysql-connector-python requests
-
-RUN echo "" > cfg.py
-
-CMD [ "python", "./server.py"]
+CMD [ "python", "./main.py"]

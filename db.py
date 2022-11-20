@@ -1,27 +1,25 @@
+import cfg
+
 import mysql.connector
 cnx = None
 
 
-def base():
+def connect():
     global cnx
-    cnx = mysql.connector.connect(user='user', password='04h608yg435f',
-host="new.wanilla.ru",
-                              port=3333,
-                              database='trash', autocommit=True)
-base()
-def exec(query: str, args: list = [], req=10):
-    print(query)
-    try:
-        with cnx.cursor() as cursor:
-            cursor.execute(query, args)
-            result = cursor.fetchall()
-            return result
-    except mysql.connector.OperationalError:
-        base()
-        req -= 1
-        if req > 0:
-            return exec(query, args, req)
-        
+    cnx = mysql.connector.connect(user=cfg.db_user,
+                                  password=cfg.db_password,
+                                  host=cfg.db_host,
+                                  port=cfg.db_port,
+                                  database=cfg.db_name,
+                                  autocommit=True)
+
+
+def exec(query: str, *params):
+    with cnx.cursor() as cursor:
+        cursor.execute(query, params)
+        result = cursor.fetchall()
+        return result
+
 
 def init():
     print(exec("DROP TABLE IF EXISTS users"))
@@ -40,10 +38,8 @@ def init():
         car_id INT, 
         lat TEXT, 
         lon TEXT, 
-        dt DATETIME DEFAULT CURRENT_TIMESTAMP
-        )"""))
+        dt DATETIME DEFAULT CURRENT_TIMESTAMP)"""))
 
-    print("ld")
     print(exec("DROP TABLE IF EXISTS cars"))
     exec("""CREATE TABLE cars (
         id INT NOT NULL AUTO_INCREMENT,
@@ -52,4 +48,6 @@ def init():
         PRIMARY KEY (id))""")
 
 
+connect()
+print(exec("select * from cars where id=%s", 1))
 init()

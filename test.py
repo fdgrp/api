@@ -28,19 +28,21 @@ test("user/reg", {"login": "qwe",
 
 
 token = test("user/auth", {"login": "qwe",
-                           "password": "qwe"}, "auth")[0]
-print(token)
+                           "password": "qwe"}, "auth")[0]['access_token']
 
-test("car/add", {"access_token": token["access_token"],
+
+user = test("user/get", {"access_token": token}, "get")[0]
+
+test("car/add", {"access_token": token,
      "car_info": {"pts": "1234fd"}}, "car add")
 
 cars = (
-    test("car/get", {"access_token": token["access_token"]}, "car get"))[0]["result"]
+    test("car/get", {"access_token": token}, "car get"))[0]["result"]
 
 
-(test("geo/add", {"access_token": "df"}, "geo add fail auth"))
 
 test("geo/add",
-     {"access_token": token["access_token"], "car_id": cars[0]["id"], "lat": 12.12, "lon": 96}, "geo add")
+     {"access_token": token, "car_id": cars[0]['id'], "lat": 12.12, "lon": 96}, "geo add")
+test("car/del",  {"access_token": token, "car_id": cars[0]['id']}, "car del")
 
-print(requests.post("http://0.0.0.0:8080/api/photo/vin", data=open("photo.png", 'rb')).json())
+test("car/info",  {"access_token": token, "car_id": cars[0]['id']}, "car info")
