@@ -22,6 +22,17 @@ def exec(query: str, *params):
 
 
 def init():
+
+    print(exec("DROP TABLE IF EXISTS places"))
+    exec("""create table places (
+        id INT NOT NULL AUTO_INCREMENT,
+        lat TEXT NOT NULL,
+        lon TEXT NOT NULL,
+        name TEXT NOT NULL,
+        PRIMARY KEY (id))""")
+    
+
+
     print(exec("DROP TABLE IF EXISTS users"))
     exec("""create table users (
         id INT NOT NULL AUTO_INCREMENT,

@@ -9,9 +9,21 @@ import requests
 
 
 class Geo():
+    def places(res):
+        res = []
+        geos = db.exec("SELECT name, lat, lon FROM places")
+        print(geos)
+        for geo in geos:
+            res.append(Geo.pfrom_tuple(geo))
+            
+        return Response(200, {"result": res})
 
     def from_tuple(res):
         return {"car_id": res[0], "lat": res[1], "lon": res[2]}
+
+    def pfrom_tuple(res):
+        return {"name": res[0], "lat": res[1], "lon": res[2]}
+
     def add(req):
         nparams = "lat lon"
         em = isempty(req.data, nparams.split(" "))
@@ -34,7 +46,7 @@ class Geo():
         if user.code != 200:
             return user
         res = []
-        geos = db.exec("SELECT car_id, lat, lon FROM geo WHERE car_id IN (SELECT id FROM cars WHERE user_id=2)")
+        geos = db.exec("SELECT car_id, lat, lon FROM geo WHERE car_id IN (SELECT id FROM cars WHERE user_id=%s)", user.data['id'])
         print(geos)
         for geo in geos:
             res.append(Geo.from_tuple(geo))
