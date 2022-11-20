@@ -8,6 +8,6 @@ COPY . /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN cp example.cfg.py cfg.py
+RUN cp cfg.example.py cfg.py
 
 CMD [ "python", "./main.py"]
