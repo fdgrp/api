@@ -27,8 +27,8 @@ test("user/reg", {"login": "qwe",
                   "password": "qwe"}, "reg")
 
 
-token = test("user/auth", {"login": "qwe",
-                           "password": "qwe"}, "auth")[0]['access_token']
+token = test("user/auth", {"login": "wex",
+                           "password": "wexwexwex"}, "auth")[0]['access_token']
 
 
 user = test("user/get", {"access_token": token}, "get")[0]

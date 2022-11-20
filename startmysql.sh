@@ -1,0 +1,2 @@
+mkdir /tmp/mysql-data
+docker run --name basic-mysql -d -v /tmp/mysql-data:/var/lib/mysql -e MYSQL_USER=user -e MYSQL_ROOT_PASSWORD=oiu934258r6ti024 -e MYSQL_PASSWORD=04h608yg435f -e MYSQL_DATABASE=trash -p 3333:3306 -it mysql
