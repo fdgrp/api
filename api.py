@@ -40,7 +40,7 @@ class Cars():
         res = requests.post(
             "https://xn--b1afk4ade.xn--90adear.xn--p1ai/proxy/check/auto/history", req.data)
 
-        return Response(403, res.json()) if 201 == res.json().get('code') else Response(200, res.json())
+        return Response(403, res.json()) if 200 != res.json().get('status', res.json().get('code')) else Response(200, res.json())
 
     def edit(req):
         em = isempty(req.data, ["car_info"])
@@ -146,7 +146,7 @@ class Users():
         if em:
             return not_specified(em)
         res = db.exec(
-            "SELECT login, id, name FROM users WHERE id = (SELECT id FROM auth WHERE token = %s)", req.data['access_token'])
+            "SELECT login, id, name FROM users WHERE id = (SELECT user_id FROM auth WHERE token = %s)", req.data['access_token'])
         if len(res) > 0:
             res = res[0]
             return Response(200, Users.from_tuple(res))
