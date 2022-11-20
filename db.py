@@ -49,5 +49,6 @@ def init():
 
 
 connect()
+if __name__ == "__main__":
+    init()
 print(exec("select * from cars where id=%s", 1))
-init()
