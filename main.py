@@ -4,7 +4,7 @@ from utils import cors
 import api, admin
 
 
-server = sbeaver.Server("0.0.0.0", 8080, False)
+server = sbeaver.Server("0.0.0.0", 8080)
 
 
 @server.bind(r"/(.*)")
