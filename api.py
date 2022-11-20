@@ -9,6 +9,9 @@ import requests
 
 
 class Geo():
+
+    def from_tuple(res):
+        return {"car_id": res[0], "lat": res[1], "lon": res[2]}
     def add(req):
         nparams = "lat lon"
         em = isempty(req.data, nparams.split(" "))
@@ -26,7 +29,17 @@ class Geo():
                 car.data['id'], req.data["lat"], req.data["lon"])
         return ok
 
-
+    def get(req):
+        user = Users.get(req)
+        if user.code != 200:
+            return user
+        res = []
+        geos = db.exec("SELECT car_id, lat, lon FROM geo WHERE car_id IN (SELECT id FROM cars WHERE user_id=2)")
+        print(geos)
+        for geo in geos:
+            res.append(Geo.from_tuple(geo))
+            
+        return Response(200, {"result": res})
 class Cars():
 
     def from_tuple(res):

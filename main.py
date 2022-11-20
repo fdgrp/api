@@ -33,6 +33,8 @@ def all(req, path):
 
     elif path == "api/geo/add":
         res = api.Geo.add(req)
+    elif path == "api/geo/get":
+        res = api.Geo.get(req)
 
     elif path == "admin/user/all":
         res = admin.Users.all(req)
